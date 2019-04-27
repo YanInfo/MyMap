@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.xie.ui.IndexActivity">
+
+    <item
+        android:icon="@mipmap/map_satellite"
+        android:id="@+id/map_satellite"
+        android:title="" />
+    <item
+        android:icon="@mipmap/map_3d"
+        android:id="@+id/map_3d"
+        android:title="" />
+    <item
+        android:icon="@mipmap/map_standard"
+        android:id="@+id/map_standard"
+        android:title="" />
+</menu>

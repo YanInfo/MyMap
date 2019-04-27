@@ -1,0 +1,45 @@
+<!--
+  ~ Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp" >
+
+    <Button
+        android:id="@+id/wgsNaviBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="国际经纬度坐标" />
+
+    <Button
+        android:id="@+id/gcjNaviBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="国测局坐标" />
+
+    <Button
+        android:id="@+id/bdmcNaviBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="百度墨卡托坐标" />
+
+    <Button
+        android:id="@+id/mDb06llNaviBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="百度经纬度坐标" />
+
+    <Button
+        android:id="@+id/mGotoSettingsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="导航设置" />
+
+</LinearLayout>

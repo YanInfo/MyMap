@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.IndexActivity">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true" />
+
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="16dp"
+        android:paddingTop="32dp"
+        android:paddingRight="16dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_offline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="250dp"
+        android:alpha="0.8"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/offline_map"
+        app:fabSize="mini" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="150dp"
+        android:alpha="0.8"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/no_checking"
+        app:fabSize="mini" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="100dp"
+        android:alpha="0.8"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/compass_mode_off"
+        app:fabSize="mini" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_to_there"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:alpha="0.8"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/to_there"
+        android:layout_alignParentBottom="true"
+        app:fabSize="normal"
+        android:visibility="gone"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_map_heat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="200dp"
+        android:alpha="0.8"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/map_heat"
+        app:fabSize="mini" />
+
+    <io.github.yavski.fabspeeddial.FabSpeedDial
+        android:id="@+id/fabSD_map_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="top|end"
+        android:layout_marginBottom="60dp"
+        android:alpha="0.8"
+        app:fabDrawable="@mipmap/map_mode"
+        app:fabDrawableTint="@color/dark"
+        app:fabGravity="bottom_start"
+        app:fabMenu="@menu/menu_map_mode"
+        app:miniFabDrawableTint="@color/main_color" />
+
+    <RelativeLayout
+        android:id="@+id/layout_information"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textview_marker_name"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textColor="@color/dark"
+            android:textSize="20dp" />
+
+
+        <TextView
+            android:id="@+id/textview_marker_information"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textColor="@color/dark"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

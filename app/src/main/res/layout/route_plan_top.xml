@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/app_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rela_a2b"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/img_return"
+            android:layout_marginTop="16dp"
+            >
+
+            <!--输入框：起点 终点-->
+            <RelativeLayout
+                android:id="@+id/rela_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <ImageView
+                    android:id="@+id/img_back"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@mipmap/route_plan_back"
+                    android:layout_centerVertical="true"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    />
+                <ImageView
+                    android:id="@+id/img_start"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/start_logo"
+                    android:layout_toRightOf="@+id/img_back"
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_start"
+                    android:layout_marginLeft="16dp"
+                    android:hint="我的位置"
+                    android:singleLine="true"
+                    app:met_singleLineEllipsis="true"
+                    android:textColorHint="@color/font_color"
+                    app:met_baseColor="@color/font_color"
+                    android:textColor="@color/font_color"
+                    />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rela_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rela_start"
+                android:layout_marginLeft="28dp"
+                >
+                <ImageView
+                    android:id="@+id/img_end"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/end_logo"
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_end"
+                    android:layout_marginLeft="16dp"
+                    android:textColorHint="@color/font_color"
+                    app:met_baseColor="@color/font_color"
+                    android:textColor="@color/font_color"
+                    android:singleLine="true"
+                    app:met_singleLineEllipsis="true"
+                    android:hint="目的地"
+                    />
+
+            </RelativeLayout>
+        </RelativeLayout>
+        <!--起点终点交换-->
+        <ImageView
+            android:id="@+id/img_return"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/exchange"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:background="?selectableItemBackground"
+            android:layout_marginRight="16dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#f2f2f2"
+            android:layout_below="@+id/rela_a2b"
+            android:layout_marginTop="10dp"
+
+            />
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabIndicatorColor="@android:color/white"
+        android:background="@color/main_color"
+        app:tabIndicatorHeight="4dp"
+        />
+</android.support.design.widget.AppBarLayout>

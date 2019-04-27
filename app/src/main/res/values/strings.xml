@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">掌上地图</string>
+    <string name="introduce">Based on BaiduMap</string>
+    <string name="skip">秒跳转</string>
+    <string name="cancel">跳过</string>
+    <string name="map_mode">地图模式</string>
+    <string name="openTraffic">开启实时路况</string>
+    <string name="closeTraffic">关闭实时路况</string>
+    <string name="severeCongestion">#ffba0101</string>
+    <string name="congestion">#fff33131</string>
+    <string name="slow">#ffff9e19</string>
+    <string name="smooth">#5900ff00</string>
+    <string name="no_permission">没有权限,请手动开启定位权限</string>
+    <string name="no_network_location">无法获取当前位置，请检查网络后重试</string>
+    <string name="no_network">无法连接网络</string>
+    <string name="current_location">您当前的位置为：</string>
+    <string name="no_address">地图上的点...</string>
+    <string name="no_result">没有结果</string>
+    <string name="city_list">城市列表</string>
+    <string name="downloaded_manage">下载管理</string>
+</resources>
