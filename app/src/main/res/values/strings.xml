@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">掌上地图</string>
+    <string name="app_name">地图</string>
     <string name="introduce">Based on BaiduMap</string>
     <string name="skip">秒跳转</string>
     <string name="cancel">跳过</string>

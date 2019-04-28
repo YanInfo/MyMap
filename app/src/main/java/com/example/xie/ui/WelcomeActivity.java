@@ -7,21 +7,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.example.xie.R;
-
 import java.util.ArrayList;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+/**
+ * 欢迎页面
+ */
 public class WelcomeActivity extends Activity {
 
     private static boolean isPermissionRequested = false;
@@ -31,11 +27,15 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         requestPermission();
-        final LinearLayout tv_lin = (LinearLayout) findViewById(R.id.text_lin);//要显示的字体
-        final LinearLayout tv_hide_lin = (LinearLayout) findViewById(R.id.text_hide_lin);//所谓的布
-        ImageView logo = (ImageView) findViewById(R.id.image);//图片
+        // 要显示的字体
+        final LinearLayout tv_lin = findViewById(R.id.text_lin);
+        // 所谓的布
+        final LinearLayout tv_hide_lin = findViewById(R.id.text_hide_lin);
+        // 图片
+        ImageView logo = findViewById(R.id.image);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.splash);
-        logo.startAnimation(animation);//开始执行动画
+        logo.startAnimation(animation);
+        // 动画监听
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -44,7 +44,7 @@ public class WelcomeActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                //第一个动画执行完后执行第二个动画就是那个字体显示那部分
+                //第一个动画执行完后执行，第二个动画对应那个字体显示那部分
                 animation = AnimationUtils.loadAnimation(WelcomeActivity.this, R.anim.text_splash_position);
                 tv_lin.startAnimation(animation);
                 animation = AnimationUtils.loadAnimation(WelcomeActivity.this, R.anim.text_canvas);
@@ -55,6 +55,10 @@ public class WelcomeActivity extends Activity {
 
                     }
 
+                    /**
+                     * 两个动画都完成时，跳转到起始页面
+                     * @param animation
+                     */
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         Intent intent = new Intent(WelcomeActivity.this, IndexActivity.class);
@@ -81,6 +85,9 @@ public class WelcomeActivity extends Activity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    /**
+     * 请求权限
+     */
     private void requestPermission() {
         if (Build.VERSION.SDK_INT >= 23 && !isPermissionRequested) {
 
