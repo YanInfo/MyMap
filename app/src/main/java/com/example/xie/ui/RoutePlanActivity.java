@@ -142,7 +142,6 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
     String mTag = "";
 
     public String[] ways = new String[]{"驾车", "公交", "步行", "骑行"};
-    String a = ways[0];
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -239,6 +238,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         img_back.setOnClickListener(this);
         img_return.setOnClickListener(this);
         mTabLayout.addOnTabSelectedListener(this);
+        // 默认选择的路线
         mTabLayout.getTabAt(BUS_ROUTE).select();
         edit_start.setOnClickListener(this);
         edit_end.setOnClickListener(this);
@@ -250,8 +250,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         mLocationClient = new LocationClient(this);
         //通过LocationClientOption设置LocationClient相关参数
         LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true); // 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
+        // 打开gps
+        option.setOpenGps(true);
+        // 设置坐标类型
+        option.setCoorType("bd09ll");
         option.setScanSpan(1000);
         //设置locationClientOption
         mLocationClient.setLocOption(option);
@@ -331,7 +333,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
-            //mapView 销毁后不在处理新接收的位置
+            // mapView 销毁后不在处理新接收的位置
             if (location == null || mMapView == null) {
                 return;
             }
@@ -729,7 +731,9 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         });
     }
 
-    //导航算路
+    /**
+     * 导航算路
+     */
     private void routeplanToNavi() {
         final int coType = BNRoutePlanNode.CoordinateType.GCJ02;
         if (!hasInitSuccess) {
@@ -754,7 +758,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         list.add(sNode);
         list.add(eNode);
 
-
+        // 发起导航
         BaiduNaviManagerFactory.getRoutePlanManager().routeplanToNavi(
                 list,
                 IBNRoutePlanManager.RoutePlanPreference.ROUTE_PLAN_PREFERENCE_DEFAULT,
@@ -793,8 +797,11 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                 });
     }
 
-    //导航
-    //获取Sdcard目录
+    /**
+     * 获取Sdcard目录
+     *
+     * @return
+     */
     private String getSdcardDir() {
         if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
             return Environment.getExternalStorageDirectory().toString();
@@ -802,7 +809,11 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         return null;
     }
 
-    //初始化导航目录
+    /**
+     * 初始化导航目录，生成对应的文件夹
+     *
+     * @return
+     */
     private boolean initDirs() {
         mSDCardPath = getSdcardDir();
         if (mSDCardPath == null) {
@@ -830,7 +841,9 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         return true;
     }
 
-    //初始化导航
+    /**
+     * 初始化导航
+     */
     private void initNavi() {
         // 申请权限
         if (android.os.Build.VERSION.SDK_INT >= 23) {
@@ -842,6 +855,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
         /**
          * 导航地图sdk初始化
+         * @param context          建议是应用的context
+         * @param sdcardRootPath   系统SD卡根目录路径
+         * @param appFolderName    应用在SD卡中的目录名
+         * @param naviInitListener 百度导航初始化监听器
          */
         BaiduNaviManagerFactory.getBaiduNaviManager().init(this,
                 mSDCardPath, APP_FOLDER_NAME, new IBaiduNaviManager.INaviInitListener() {
@@ -887,7 +904,9 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                 });
     }
 
-    //初始化语音播报
+    /**
+     * 初始化语音播报
+     */
     private void initTTS() {
         // 使用内置TTS
         BaiduNaviManagerFactory.getTTSManager().initTTS(getApplicationContext(),
@@ -913,6 +932,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                     }
                 }
         );
+
         // 注册内置tts 异步状态消息
         BaiduNaviManagerFactory.getTTSManager().setOnTTSStateChangedHandler(
                 new Handler(Looper.getMainLooper()) {
