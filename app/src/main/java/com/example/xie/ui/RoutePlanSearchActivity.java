@@ -64,7 +64,8 @@ public class RoutePlanSearchActivity extends FragmentActivity implements OnGetPo
     MaterialSearchBar mSearchBar;
     RecyclerView mRecyclerView;
     private List<PoiInfo> poiInfos;
-    private PoiSearch mPoiSearch;//POI搜索
+    // POI搜索
+    private PoiSearch mPoiSearch;
     private SuggestionSearch mSuggestionSearch;
     MySuggestionsAdapter suggestionsAdapter;
     BaseAdapter mAdapter;
@@ -106,6 +107,9 @@ public class RoutePlanSearchActivity extends FragmentActivity implements OnGetPo
         mRecyclerView = findViewById(R.id.recycler_result);
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData() {
         suggestionsAdapter = new MySuggestionsAdapter(LayoutInflater.from(getApplicationContext()));
         mSearchBar.clearSuggestions();
@@ -176,7 +180,7 @@ public class RoutePlanSearchActivity extends FragmentActivity implements OnGetPo
             searchAdapter.appendData(poiInfos);
             loadCount++;
             mCallback.onSuccess();
-            //模拟加载到没有更多数据的情况，触发onFailure
+            // 模拟加载到没有更多数据的情况，触发onFailure
             if (poiResult.getTotalPoiNum() < 10) {
                 mCallback.onFailure();
             }
@@ -205,15 +209,9 @@ public class RoutePlanSearchActivity extends FragmentActivity implements OnGetPo
 
     }
 
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-        mSearchBar.clearSuggestions();
-    }*/
-
     @Override
     public void onSearchConfirmed(final CharSequence text) {
-        if(!MapUtil.isNetworkConnected(this)){
+        if (!MapUtil.isNetworkConnected(this)) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_network), Toast.LENGTH_SHORT).show();
             return;
         }

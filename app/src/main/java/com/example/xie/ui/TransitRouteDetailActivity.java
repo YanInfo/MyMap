@@ -225,6 +225,7 @@ public class TransitRouteDetailActivity extends AppCompatActivity implements Bai
             }
         });
     }
+
     private void initLocation() {
         //定位初始化
         mLocationClient = new LocationClient(this);
@@ -241,6 +242,7 @@ public class TransitRouteDetailActivity extends AppCompatActivity implements Bai
         //开启地图定位图层
         mLocationClient.start();
     }
+
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {

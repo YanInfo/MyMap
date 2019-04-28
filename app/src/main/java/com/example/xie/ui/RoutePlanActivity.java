@@ -76,9 +76,11 @@ import com.example.xie.util.MapUtil;
 import com.example.xie.util.RevealAnimatorUtil;
 import com.example.xie.util.SPUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import sdkdemo.NormalUtils;
 import sdkdemo.newif.DemoGuideActivity;
 
@@ -112,8 +114,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     private LocationClient mLocationClient;
 
-    private int animatorX, animatorY;//动画开始和结束的坐标
-    private RevealAnimatorUtil revealAnimatorUtil;//揭露动画工具类
+    // 动画开始和结束的坐标
+    private int animatorX, animatorY;
+    // 揭露动画工具类
+    private RevealAnimatorUtil revealAnimatorUtil;
 
     private String startName;
     private String endName;
@@ -123,7 +127,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
     private LatLng locationPoint;
     private String mCurrentCityName;
 
-    //导航相关
+    // 导航相关
     private static final String APP_FOLDER_NAME = "掌上地图";
     private String mSDCardPath = null;
     private static final String[] authBaseArr = {
@@ -134,7 +138,6 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
     private boolean hasInitSuccess = false;
     static final String ROUTE_PLAN_NODE = "routePlanNode";
     private BNRoutePlanNode mStartNode = null;
-
 
     String mTag = "";
 
@@ -194,8 +197,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
             endName = getIntent().getStringExtra("end_name");
             mCurrentCityName = getIntent().getStringExtra("city_name");
         }
-        animatorX = (int) SPUtil.get(RoutePlanActivity.this, ChString.REVEAL_CENTER_X, this.getWindowManager().getDefaultDisplay().getWidth());//默认值是屏幕宽度
-        animatorY = (int) SPUtil.get(RoutePlanActivity.this, ChString.REVEAL_CENTER_Y, this.getWindowManager().getDefaultDisplay().getHeight());//默认值是屏幕高度
+        // 默认值是屏幕宽度
+        animatorX = (int) SPUtil.get(RoutePlanActivity.this, ChString.REVEAL_CENTER_X, this.getWindowManager().getDefaultDisplay().getWidth());
+        // 默认值是屏幕高度
+        animatorY = (int) SPUtil.get(RoutePlanActivity.this, ChString.REVEAL_CENTER_Y, this.getWindowManager().getDefaultDisplay().getHeight());
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(startPoint));
         mSearch = RoutePlanSearch.newInstance();

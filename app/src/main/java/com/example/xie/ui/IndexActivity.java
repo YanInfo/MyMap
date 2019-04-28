@@ -380,7 +380,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.map_3d:
                 mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                mMapStatus = new MapStatus.Builder().overlook(-45).build(); //3d
+                mMapStatus = new MapStatus.Builder().overlook(-45).build();
                 mBaiduMap.setBuildingsEnabled(true);
                 mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
                 mBaiduMap.animateMapStatus(mMapStatusUpdate, DURATION_MS);
