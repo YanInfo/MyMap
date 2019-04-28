@@ -20,8 +20,9 @@ import com.example.xie.R;
 
 import java.util.ArrayList;
 import java.util.List;
-/*
-公交路线详情适配器
+
+/**
+ * 公交路线详情适配器
  */
 public class TransitSegmentListAdapter extends BaseAdapter {
     private Context mContext;

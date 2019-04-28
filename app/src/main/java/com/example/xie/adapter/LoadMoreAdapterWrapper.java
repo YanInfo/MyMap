@@ -1,6 +1,5 @@
 package com.example.xie.adapter;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +7,14 @@ import android.view.ViewGroup;
 
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.example.xie.R;
-/*
-加载更多适配器
+
+/**
+ * 加载更多适配器
  */
 public class LoadMoreAdapterWrapper extends BaseAdapter<PoiInfo>{
     private BaseAdapter mAdapter;
-    private static final int mPageSize = 10;  // 一页显示的数量为10个
+    // 一页显示的数量为10个
+    private static final int mPageSize = 10;
     private int mPagePosition = 0;
     private boolean hasMoreData = true;
     private OnLoad mOnLoad;

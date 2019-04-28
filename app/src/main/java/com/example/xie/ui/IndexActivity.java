@@ -68,13 +68,11 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private FabSpeedDial fabSD_map_mode;
     private FloatingActionButton fab_check;
     private FloatingActionButton fab_location;
-    private FloatingActionButton fab_map_heat;
     private FloatingActionButton fab_to_there;
     private TextView textView_marker_information;
     private TextView textView_marker_name;
     private RelativeLayout layout_information;
     private boolean trafficEnabled = false;
-    private boolean heatEnabled = false;
     private boolean isHided = false;
     private BaiduMap mBaiduMap;
     private UiSettings mUiSettings;
@@ -116,7 +114,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     fab_check.setVisibility(View.GONE);
                     fab_location.setVisibility(View.GONE);
                     fabSD_map_mode.setVisibility(View.GONE);
-                    fab_map_heat.setVisibility(View.GONE);
                     mSearchBar.setVisibility(View.GONE);
                     mMapView.showZoomControls(false);
                     mBaiduMap.setCompassEnable(false);
@@ -125,7 +122,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     fab_check.setVisibility(View.VISIBLE);
                     fab_location.setVisibility(View.VISIBLE);
                     fabSD_map_mode.setVisibility(View.VISIBLE);
-                    fab_map_heat.setVisibility(View.VISIBLE);
                     mSearchBar.setVisibility(View.VISIBLE);
                     mMapView.showZoomControls(true);
                     mBaiduMap.setCompassEnable(true);
@@ -140,19 +136,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     }
                     layout_information.setVisibility(View.VISIBLE);
                     fab_to_there.setVisibility(View.VISIBLE);
-                    /*fab_to_there.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            intent = new Intent(IndexActivity.this, RoutePlanActivity.class);
-                            intent.putExtra("start_point", mStartPoint);
-                            intent.putExtra("end_point", mEndPoint);
-                            intent.putExtra("start_name", myLocationInformation);
-                            intent.putExtra("end_name", addressInformation);
-                            intent.putExtra("city_name", mCurrentCityName);
-                            startActivity(intent);
-                        }
-                    });*/
-                    // 移动比例尺位置
                     mMapView.setScaleControlPosition(new Point(20, 1580));
                     break;
                 default:
@@ -171,11 +154,10 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
-        mMapView = (MapView) findViewById(R.id.bmapView);
+        mMapView = findViewById(R.id.bmapView);
         fab_location = findViewById(R.id.fab_location);
         fabSD_map_mode = findViewById(R.id.fabSD_map_mode);
         fab_check = findViewById(R.id.fab_check);
-        fab_map_heat = findViewById(R.id.fab_map_heat);
         mSearchBar = findViewById(R.id.search_bar);
         layout_information = findViewById(R.id.layout_information);
         textView_marker_information = findViewById(R.id.textview_marker_information);
@@ -228,7 +210,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         fabSD_map_mode.setMenuListener(this);
         fab_check.setOnClickListener(this);
         fab_location.setOnClickListener(this);
-        fab_map_heat.setOnClickListener(this);
         mBaiduMap.setOnMapClickListener(this);
         mBaiduMap.setOnMapLongClickListener(this);
         mBaiduMap.setOnMapTouchListener(this);
@@ -302,17 +283,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.fab_check:
                 changeTraffic();
-                break;
-            case R.id.fab_map_heat:
-                if (heatEnabled) {
-                    heatEnabled = false;
-                    mBaiduMap.setBaiduHeatMapEnabled(false);
-                    fab_map_heat.setImageResource(R.mipmap.map_heat);
-                } else {
-                    heatEnabled = true;
-                    mBaiduMap.setBaiduHeatMapEnabled(true);
-                    fab_map_heat.setImageResource(R.mipmap.map_heat_on);
-                }
                 break;
             case R.id.search_bar:
                 intent = new Intent(IndexActivity.this, SearchActivity.class);
