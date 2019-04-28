@@ -4,16 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.xie.R;
-
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
-/*
-搜索提示适配器
+
+/**
+ * 搜索提示适配器
  */
 public class MySuggestionsAdapter extends SuggestionsAdapter<String, MySuggestionsAdapter.SuggestionHolder>{
+
     private MySuggestionsAdapter.OnItemViewClickListener listener;
 
     public MySuggestionsAdapter(LayoutInflater inflater) {
@@ -41,7 +40,9 @@ public class MySuggestionsAdapter extends SuggestionsAdapter<String, MySuggestio
         holder.text.setText(getSuggestions().get(position));
     }
 
-    // 回调接口
+    /**
+     * 回调接口
+     */
     public interface OnItemViewClickListener {
         void OnItemClickListener(int position, View v);
     }
