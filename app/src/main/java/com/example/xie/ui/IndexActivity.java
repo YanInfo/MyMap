@@ -1,9 +1,7 @@
 package com.example.xie.ui;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Build;
@@ -11,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.internal.NavigationMenu;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -54,8 +51,8 @@ import com.example.xie.util.MapUtil;
 import com.example.xie.listener.MyOrientationListener;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
-
 import io.github.yavski.fabspeeddial.FabSpeedDial;
+
 
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener, FabSpeedDial.MenuListener, BaiduMap.OnMapClickListener, BaiduMap.OnMapLongClickListener, BaiduMap.OnMapTouchListener {
 
@@ -72,7 +69,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private FloatingActionButton fab_check;
     private FloatingActionButton fab_location;
     private FloatingActionButton fab_map_heat;
-    private FloatingActionButton fab_offline;
     private FloatingActionButton fab_to_there;
     private TextView textView_marker_information;
     private TextView textView_marker_name;
@@ -122,7 +118,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     fabSD_map_mode.setVisibility(View.GONE);
                     fab_map_heat.setVisibility(View.GONE);
                     mSearchBar.setVisibility(View.GONE);
-                    fab_offline.setVisibility(View.GONE);
                     mMapView.showZoomControls(false);
                     mBaiduMap.setCompassEnable(false);
                     break;
@@ -132,7 +127,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     fabSD_map_mode.setVisibility(View.VISIBLE);
                     fab_map_heat.setVisibility(View.VISIBLE);
                     mSearchBar.setVisibility(View.VISIBLE);
-                    fab_offline.setVisibility(View.VISIBLE);
                     mMapView.showZoomControls(true);
                     mBaiduMap.setCompassEnable(true);
                     break;
@@ -182,7 +176,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         fabSD_map_mode = findViewById(R.id.fabSD_map_mode);
         fab_check = findViewById(R.id.fab_check);
         fab_map_heat = findViewById(R.id.fab_map_heat);
-        fab_offline = findViewById(R.id.fab_offline);
         mSearchBar = findViewById(R.id.search_bar);
         layout_information = findViewById(R.id.layout_information);
         textView_marker_information = findViewById(R.id.textview_marker_information);
@@ -241,7 +234,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         mBaiduMap.setOnMapTouchListener(this);
         mSearchBar.setOnClickListener(this);
         fab_to_there.setOnClickListener(this);
-        fab_offline.setOnClickListener(this);
         mCoder.setOnGetGeoCodeResultListener(mCoderListener);
     }
 
@@ -322,17 +314,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     fab_map_heat.setImageResource(R.mipmap.map_heat_on);
                 }
                 break;
-            case R.id.fab_offline:
-                if (MapUtil.isNetworkConnected(IndexActivity.this)) {
-                    intent = new Intent(IndexActivity.this, OfflineActivity.class);
-                    intent.putExtra("city_name", mCurrentCityName);
-                    startActivity(intent);
-                    overridePendingTransition(0, 0);
-                } else {
-                    toast.setText(getResources().getString(R.string.no_network));
-                    toast.show();
-                }
-                break;
             case R.id.search_bar:
                 intent = new Intent(IndexActivity.this, SearchActivity.class);
                 intent.putExtra("start_name", myLocationInformation);
@@ -351,8 +332,9 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void changeCompassMode() {
-        if (null == mMapView)
+        if (null == mMapView) {
             return;
+        }
         if (locationState == LOCATION_COMPASS_MODE_OFF) {
             locationMode = MyLocationConfiguration.LocationMode.COMPASS;
             configuration = new MyLocationConfiguration(locationMode, true, mIconNavigation);
@@ -373,9 +355,13 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * 实时路况
+     */
     private void changeTraffic() {
-        if (null == mMapView)
+        if (null == mMapView) {
             return;
+        }
         if (trafficEnabled) {
             trafficEnabled = false;
 
@@ -470,15 +456,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         }
         OverlayOptions options = new MarkerOptions().position(mEndPoint).icon(mIconMarker);
         // 在地图上添加Marker，并显示
-        //mBaiduMap.addOverlay(options);
         marker = (Marker) (mBaiduMap.addOverlay(options));
 
-        // 设置额外的信息
-        /*Bundle bundle = new Bundle();
-        bundle.putString("deviceSN", deviceSN[i]);
-        marker.setExtraInfo(bundle);*/
-        //marker.setIcon(mIconNavigation);
-        //textView_information.setText();
         mCoder.reverseGeoCode(new ReverseGeoCodeOption()
                 .location(mEndPoint)
                 // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
@@ -500,16 +479,11 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
 
         OverlayOptions options = new MarkerOptions().position(mEndPoint).icon(mIconMarker);
         // 在地图上添加Marker，并显示
-        //mBaiduMap.addOverlay(options);
+        // mBaiduMap.addOverlay(options);
         marker = (Marker) (mBaiduMap.addOverlay(options));
         //textView_information.setText();
         // 设置额外的信息
-        /*Bundle bundle = new Bundle();
-        bundle.putString("deviceSN", deviceSN[i]);
-        marker.setExtraInfo(bundle);*/
-        //marker.setIcon(mIconNavigation);
-
-        //发起反地理编码请求(经纬度->地址信息)
+        // 发起反地理编码请求(经纬度->地址信息)
         mCoder.reverseGeoCode(new ReverseGeoCodeOption()
                 .location(mEndPoint)
                 // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
@@ -543,13 +517,17 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 return;
             }
             MyLocationData locData = new MyLocationData.Builder()
-                    .direction(mCurrentX)//设定图标方向
-                    .accuracy(bdLocation.getRadius())//getRadius 获取定位精度,默认值0.0f
-                    .latitude(mLatitude)//百度纬度坐标
-                    .longitude(mLongitude)//百度经度坐标
+                    // 设定图标方向
+                    .direction(mCurrentX)
+                    // getRadius 获取定位精度,默认值0.0f
+                    .accuracy(bdLocation.getRadius())
+                    // 百度纬度坐标
+                    .latitude(mLatitude)
+                    // 百度经度坐标
+                    .longitude(mLongitude)
                     .build();
             mBaiduMap.setMyLocationData(locData);
-            //配置定位图层显示方式,三个参数的构造器
+            // 配置定位图层显示方式,三个参数的构造器
             /**
              * 1.定位图层显示模式
              * 2.是否允许显示方向信息
@@ -576,26 +554,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    /**
-     * Android 6.0 以上的版本的定位方法
-     */
-    /*public void showLocMap() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
-            toast.setText(getResources().getString(R.string.no_permission));
-            toast.show();
-            // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
-            ActivityCompat.requestPermissions(IndexActivity.this, new String[]{
-                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE
-            }, BAIDU_READ_PHONE_STATE);
-        } else {
-            initLocation();
-        }
-    }*/
 
     /**
      * 定位方法

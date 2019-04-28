@@ -47,7 +47,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="OZNaOwSogRxo0BimccKOvoZzjtjujxGf" />
+            android:value="TGVNcNncZQPtCb4svmoSeq5zNZoSHAyH" />
         <meta-data
             android:name="com.baidu.speech.APP_ID"
             android:value="15683691" />
@@ -80,7 +80,6 @@
             android:name=".ui.SearchActivity"
             android:theme="@style/WelfareActivityTheme" />
         <activity android:name=".ui.RoutePlanActivity" />
-        <activity android:name=".ui.OfflineActivity" />
         <activity android:name=".ui.TransitRouteDetailActivity" />
         <activity android:name=".ui.BNaviGuideActivity" />
         <activity android:name=".ui.RoutePlanSearchActivity" />

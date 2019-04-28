@@ -23,19 +23,6 @@
         android:paddingTop="32dp"
         android:paddingRight="16dp" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_offline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="250dp"
-        android:alpha="0.8"
-        android:clickable="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/offline_map"
-        app:fabSize="mini" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_check"
@@ -69,16 +56,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         android:alpha="0.8"
         android:clickable="true"
         android:scaleType="fitXY"
         android:src="@mipmap/to_there"
-        android:layout_alignParentBottom="true"
-        app:fabSize="normal"
         android:visibility="gone"
-        />
+        app:fabSize="normal" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_map_heat"

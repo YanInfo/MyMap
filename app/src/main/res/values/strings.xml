@@ -16,6 +16,4 @@
     <string name="current_location">您当前的位置为：</string>
     <string name="no_address">地图上的点...</string>
     <string name="no_result">没有结果</string>
-    <string name="city_list">城市列表</string>
-    <string name="downloaded_manage">下载管理</string>
 </resources>
