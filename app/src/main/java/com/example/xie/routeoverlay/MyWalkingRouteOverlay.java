@@ -5,6 +5,9 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.example.xie.R;
 
+/**
+ * 步行Overlay，这里没有用到
+ */
 public class MyWalkingRouteOverlay extends WalkingRouteOverlay {
     public MyWalkingRouteOverlay(BaiduMap baiduMap) {
         super(baiduMap);

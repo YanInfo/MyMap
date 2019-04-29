@@ -10,8 +10,9 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.example.xie.R;
-/*
-搜索结果适配器
+
+/**
+ * 搜索结果适配器
  */
 public class SearchAdapter extends BaseAdapter<PoiInfo>{
     private Context mContext;

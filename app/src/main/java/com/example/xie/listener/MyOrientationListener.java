@@ -5,8 +5,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-/*
-陀螺仪监听
+
+/**
+ * 陀螺仪监听
  */
 public class MyOrientationListener implements SensorEventListener {
     private SensorManager mSensorManager;

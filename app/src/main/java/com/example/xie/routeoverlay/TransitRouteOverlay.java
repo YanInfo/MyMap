@@ -1,6 +1,5 @@
 package com.example.xie.routeoverlay;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +20,7 @@ import java.util.List;
 
 /**
  * 用于显示换乘路线的Overlay，自3.4.0版本起可实例化多个添加在地图中显示
+ * OverlayManager该类提供一个能够显示和管理多个Overlay的基类
  */
 public class TransitRouteOverlay extends OverlayManager {
 

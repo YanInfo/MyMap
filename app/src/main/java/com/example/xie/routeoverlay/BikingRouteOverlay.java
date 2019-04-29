@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 用于显示骑行路线的Overlay
+ * 用于显示骑行路线的Overlay，这里没有用到
  */
 public class BikingRouteOverlay extends OverlayManager {
 

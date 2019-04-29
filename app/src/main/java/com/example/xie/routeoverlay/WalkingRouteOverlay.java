@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 用于显示步行路线的overlay，自3.4.0版本起可实例化多个添加在地图中显示
+ * 用于显示步行路线的overlay，自3.4.0版本起可实例化多个添加在地图中显示，这里没有用到
  */
 public class WalkingRouteOverlay extends OverlayManager {
 

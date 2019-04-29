@@ -15,8 +15,9 @@ import com.example.xie.R;
 import com.example.xie.util.MapUtil;
 
 import java.util.List;
-/*
-公交路线适配器
+
+/**
+ * 公交路线适配器
  */
 public class TransitRouteAdapter extends RecyclerView.Adapter<TransitRouteAdapter.ViewHolder> {
     private List<TransitRouteLine> mTransitRouteLineList;  //公交线路列表

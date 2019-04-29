@@ -21,8 +21,4 @@ public class MyDrivingRouteOverlay extends DrivingRouteOverlay {
         return BitmapDescriptorFactory.fromResource(R.mipmap.end_location);
     }
 
-    /*@Override
-    public BitmapDescriptor getStepMarker() {
-        return BitmapDescriptorFactory.fromResource(R.mipmap.route_car);
-    }*/
 }

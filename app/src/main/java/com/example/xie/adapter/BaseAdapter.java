@@ -1,13 +1,12 @@
 package com.example.xie.adapter;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
-/*
-适配器抽象类
+
+/**
+ * 适配器抽象类，基础适配器
+ * @param <T>
  */
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter {
     protected List<T> dataSet = new ArrayList<>();
