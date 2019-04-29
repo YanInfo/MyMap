@@ -6,6 +6,7 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.example.xie.R;
 
 public class MyDrivingRouteOverlay extends DrivingRouteOverlay {
+
     public MyDrivingRouteOverlay(BaiduMap baiduMap) {
         super(baiduMap);
     }

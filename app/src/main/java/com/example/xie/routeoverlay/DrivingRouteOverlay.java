@@ -56,7 +56,8 @@ public class DrivingRouteOverlay extends OverlayManager {
                             .position(step.getEntrance().getLocation())
                             .anchor(0.5f, 0.5f)
                             .zIndex(10)
-                            .rotate((360 - step.getDirection()))  //旋转角度
+                            // 旋转角度
+                            .rotate((360 - step.getDirection()))
                             .extraInfo(b)
                             .icon(getStepMarker() != null ? getStepMarker() :
                                     BitmapDescriptorFactory.fromAssetWithDpi("Icon_line_node.png")));
@@ -115,16 +116,6 @@ public class DrivingRouteOverlay extends OverlayManager {
                     }
                 }
             }
-            //            Bundle indexList = new Bundle();
-            //            if (traffics.size() > 0) {
-            //                int raffic[] = new int[traffics.size()];
-            //                int index = 0;
-            //                for (Integer tempTraff : traffics) {
-            //                    raffic[index] = tempTraff.intValue();
-            //                    index++;
-            //                }
-            //                indexList.putIntArray("indexs", raffic);
-            //            }
             boolean isDotLine = false;
 
             if (traffics != null && traffics.size() > 0) {
