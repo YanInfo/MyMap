@@ -37,8 +37,13 @@ public class DrivingRouteOverlay extends OverlayManager {
         super(baiduMap);
     }
 
+    /**
+     * 设置欲显示和管理的Overlay列表
+     * @return
+     */
     @Override
     public final List<OverlayOptions> getOverlayOptions() {
+
         if (mRouteLine == null) {
             return null;
         }

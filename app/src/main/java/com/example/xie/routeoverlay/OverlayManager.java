@@ -6,13 +6,16 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class OverlayManager  implements BaiduMap.OnMarkerClickListener, OnPolylineClickListener{
+/**
+ * Overlay基类，供驾驶，公交，步行，骑行调用
+ * BaiduMap.OnMarkerClickListener是覆盖物点击事件监听接口
+ */
+public abstract class OverlayManager implements BaiduMap.OnMarkerClickListener, OnPolylineClickListener {
     BaiduMap mBaiduMap = null;
     private List<OverlayOptions> mOverlayOptionList = null;
 
@@ -25,12 +28,11 @@ public abstract class OverlayManager  implements BaiduMap.OnMarkerClickListener,
      */
     public OverlayManager(BaiduMap baiduMap) {
         mBaiduMap = baiduMap;
-        // mBaiduMap.setOnMarkerClickListener(this);
         if (mOverlayOptionList == null) {
-            mOverlayOptionList = new ArrayList<OverlayOptions>();
+            mOverlayOptionList = new ArrayList<>();
         }
         if (mOverlayList == null) {
-            mOverlayList = new ArrayList<Overlay>();
+            mOverlayList = new ArrayList<>();
         }
     }
 
@@ -45,6 +47,7 @@ public abstract class OverlayManager  implements BaiduMap.OnMarkerClickListener,
      * 将所有Overlay 添加到地图上
      */
     public final void addToMap() {
+
         if (mBaiduMap == null) {
             return;
         }
@@ -76,10 +79,7 @@ public abstract class OverlayManager  implements BaiduMap.OnMarkerClickListener,
 
     /**
      * 缩放地图，使所有Overlay都在合适的视野内
-     * <p>
      * 注： 该方法只对Marker类型的overlay有效
-     * </p>
-     *
      */
     public void zoomToSpan() {
         if (mBaiduMap == null) {

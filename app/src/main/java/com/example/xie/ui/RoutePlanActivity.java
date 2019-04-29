@@ -83,40 +83,45 @@ import sdkdemo.newif.DemoMainActivity;
 /**
  * 导航，输入起始位置和终点位置
  */
-public class RoutePlanActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, OnGetRoutePlanResultListener, View.OnClickListener{
-
-    public static RoutePlanActivity routePlanActivityInstance = null;
+public class RoutePlanActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, OnGetRoutePlanResultListener, View.OnClickListener {
 
     public static final int DRIVE_ROUTE = 0;
     public static final int BUS_ROUTE = 1;
     // 步行和骑行，没有用到
     public static final int WALK_ROUTE = 2;
     public static final int RIDE_ROUTE = 3;
+    static final String ROUTE_PLAN_NODE = "routePlanNode";
+    // 导航相关
+    private static final String APP_FOLDER_NAME = "掌上地图";
+    private static final String[] authBaseArr = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+    private static final int authBaseRequestCode = 1;
+    public static RoutePlanActivity routePlanActivityInstance = null;
     TabLayout mTabLayout;
     MapView mMapView;
-    private ProgressBar progressBar;
     TextView mFirstLine;
     TextView mSecondLine;
     ImageView img_back;
-    private RelativeLayout mRootLayout;
     RecyclerView recycler_bus_list;
     RelativeLayout mBottomInfo;
     RelativeLayout layout_no_information;
     MaterialEditText edit_end;
     MaterialEditText edit_start;
+    ImageView img_return;
+    ImageView img_setting;
+    String mTag = "";
+    private ProgressBar progressBar;
+    private RelativeLayout mRootLayout;
     private BaiduMap mBaiduMap;
     private UiSettings mUiSettings;
     private RoutePlanSearch mSearch;
-    ImageView img_return;
-    ImageView img_setting;
-
     private LocationClient mLocationClient;
-
     // 动画开始和结束的坐标
     private int animatorX, animatorY;
     // 揭露动画工具类
     private RevealAnimatorUtil revealAnimatorUtil;
-
     private String startName;
     private String endName;
     private String locationName;
@@ -124,25 +129,6 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
     private LatLng endPoint;
     private LatLng locationPoint;
     private String mCurrentCityName;
-
-    // 导航相关
-    private static final String APP_FOLDER_NAME = "掌上地图";
-    private String mSDCardPath = null;
-    private static final String[] authBaseArr = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION
-    };
-
-    private static final int authBaseRequestCode = 1;
-    private boolean hasInitSuccess = false;
-    static final String ROUTE_PLAN_NODE = "routePlanNode";
-    private BNRoutePlanNode mStartNode = null;
-
-    String mTag = "";
-
-    private String[] ways = new String[]{"驾车", "公交"};
-    // public String[] ways = new String[]{"驾车", "公交", "步行", "骑行"};
-
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -162,6 +148,16 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
             }
         }
     };
+    private String mSDCardPath = null;
+    private boolean hasInitSuccess = false;
+    private BNRoutePlanNode mStartNode = null;
+    // public String[] ways = new String[]{"驾车", "公交", "步行", "骑行"};
+    private String[] ways = new String[]{"驾车", "公交"};
+
+    //坐标转换
+    public static BDLocation bd2gcj(BDLocation loc) {
+        return LocationClient.getBDLocationInCoorType(loc, BDLocation.BDLOCATION_BD09LL_TO_GCJ02);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -342,46 +338,8 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
     }
 
     /**
-     * 注册定位监听
-     */
-    public class MyLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // mapView 销毁后不在处理新接收的位置
-            if (location == null || mMapView == null) {
-                return;
-            }
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(location.getDirection()).latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
-            mBaiduMap.setMyLocationData(locData);
-            mCurrentCityName = location.getCity();
-            locationName = location.getAddrStr();
-            locationPoint = new LatLng(location.getLatitude(), location.getLongitude());
-            if (locationName != null) {
-                if (mTag.equals("start")) {
-                    startName = locationName;
-                    mTag = "";
-                    startPoint = new LatLng(location.getLatitude(), location.getLongitude());
-                } else if (mTag.equals("end")) {
-                    endName = locationName;
-                    endPoint = new LatLng(location.getLatitude(), location.getLongitude());
-                    mTag = "";
-                }
-            }
-            if (startName.equals(locationName)) {
-                edit_start.setText("我的位置");
-            }
-            if (endName.equals(locationName)) {
-                edit_end.setText("我的位置");
-            }
-        }
-    }
-
-    /**
      * 搜索路线
+     *
      * @param routeType
      */
     private void searchRouteResult(int routeType) {
@@ -438,6 +396,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     /**
      * 步行路线结果回调
+     *
      * @param walkingRouteResult
      */
     @Override
@@ -482,6 +441,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     /**
      * 换乘路线结果回调
+     *
      * @param transitRouteResult
      */
     @Override
@@ -520,6 +480,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     /**
      * 驾车路线结果回调
+     *
      * @param drivingRouteResult
      */
     @Override
@@ -532,18 +493,19 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         if (drivingRouteResult != null && drivingRouteResult.getRouteLines() != null) {
             if (drivingRouteResult.getRouteLines().size() > 0) {
                 progressBar.setVisibility(View.GONE);
+                // 绘制驾驶路线
                 MyDrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mBaiduMap);
                 if (drivingRouteResult.getRouteLines().size() > 0) {
-                    //获取路径规划数据,(以返回的第一条路线为例）
-                    //为DrivingRouteOverlay实例设置数据
+                    // 获取路径规划数据,以返回的第一条路线为例，这里只展示第一条路线
+                    // 为DrivingRouteOverlay实例设置数据
                     overlay.setData(drivingRouteResult.getRouteLines().get(0));
-                    //在地图上绘制DrivingRouteOverlay
+                    // 在地图上绘制DrivingRouteOverlay
                     overlay.removeFromMap();
                     overlay.addToMap();
                     overlay.zoomToSpan();
                     int firstPrice = 0;
-                    int dis = (int) drivingRouteResult.getRouteLines().get(0).getDistance();
-                    int dur = (int) drivingRouteResult.getRouteLines().get(0).getDuration();
+                    int dis = drivingRouteResult.getRouteLines().get(0).getDistance();
+                    int dur = drivingRouteResult.getRouteLines().get(0).getDuration();
                     String des = MapUtil.getFriendlyTime(dur) + "(" + MapUtil.getFriendlyLength(dis) + ")";
                     mFirstLine.setText(des);
                     if (firstPrice != 0) {
@@ -554,7 +516,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                         @Override
                         public void onClick(View v) {
                             routeplanToNavi();
-                            Log.d("-----", "keyi");
+                            Log.d("routeplanToNavi()", "###########");
                         }
                     });
                 } else if (drivingRouteResult != null && drivingRouteResult.getRouteLines() == null) {
@@ -573,6 +535,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     /**
      * 骑行路线结果回调
+     *
      * @param bikingRouteResult
      */
     @Override
@@ -630,7 +593,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                 break;
             case R.id.img_setting:
                 if (BaiduNaviManagerFactory.getBaiduNaviManager().isInited()) {
-                     NormalUtils.gotoSettings(RoutePlanActivity.this);
+                    NormalUtils.gotoSettings(RoutePlanActivity.this);
                 }
                 break;
             case R.id.edit_start:
@@ -745,6 +708,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     /**
      * 步行导航初始化，并监听
+     *
      * @param walkParam
      */
     private void startWalkNavi(final WalkNaviLaunchParam walkParam) {
@@ -794,6 +758,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     /**
      * 骑行导航初始化，并监听
+     *
      * @param bikeParam
      */
     private void startBikeNavi(final BikeNaviLaunchParam bikeParam) {
@@ -989,13 +954,47 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         );
     }
 
-    //坐标转换
-    public static BDLocation bd2gcj(BDLocation loc) {
-        return LocationClient.getBDLocationInCoorType(loc, BDLocation.BDLOCATION_BD09LL_TO_GCJ02);
-    }
-
     @Override
     public void onBackPressed() {
         revealAnimatorUtil.startRevealAnimator(true, animatorX, animatorY);
+    }
+
+    /**
+     * 注册定位监听
+     */
+    public class MyLocationListener extends BDAbstractLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // mapView 销毁后不在处理新接收的位置
+            if (location == null || mMapView == null) {
+                return;
+            }
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(location.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(location.getDirection()).latitude(location.getLatitude())
+                    .longitude(location.getLongitude()).build();
+            mBaiduMap.setMyLocationData(locData);
+            mCurrentCityName = location.getCity();
+            locationName = location.getAddrStr();
+            locationPoint = new LatLng(location.getLatitude(), location.getLongitude());
+            if (locationName != null) {
+                if (mTag.equals("start")) {
+                    startName = locationName;
+                    mTag = "";
+                    startPoint = new LatLng(location.getLatitude(), location.getLongitude());
+                } else if (mTag.equals("end")) {
+                    endName = locationName;
+                    endPoint = new LatLng(location.getLatitude(), location.getLongitude());
+                    mTag = "";
+                }
+            }
+            if (startName.equals(locationName)) {
+                edit_start.setText("我的位置");
+            }
+            if (endName.equals(locationName)) {
+                edit_end.setText("我的位置");
+            }
+        }
     }
 }

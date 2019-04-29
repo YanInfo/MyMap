@@ -5,6 +5,9 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.example.xie.R;
 
+/**
+ * 驾车路线绘制
+ */
 public class MyDrivingRouteOverlay extends DrivingRouteOverlay {
 
     public MyDrivingRouteOverlay(BaiduMap baiduMap) {
@@ -13,7 +16,7 @@ public class MyDrivingRouteOverlay extends DrivingRouteOverlay {
 
     @Override
     public BitmapDescriptor getStartMarker() {
-            return BitmapDescriptorFactory.fromResource(R.mipmap.start_location);
+        return BitmapDescriptorFactory.fromResource(R.mipmap.start_location);
 
     }
 
