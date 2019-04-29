@@ -37,6 +37,9 @@ import com.example.xie.util.MapUtil;
 import com.example.xie.util.RevealAnimatorUtil;
 import com.example.xie.util.SPUtil;
 
+/**
+ * 公交换乘路线
+ */
 public class TransitRouteDetailActivity extends AppCompatActivity implements BaiduMap.OnMapLoadedCallback, TransitSegmentListAdapter.OnClickNaviListener {
     TransitRouteLine transitRouteLine;
     TransitRouteResult transitRouteResult;

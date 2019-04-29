@@ -22,7 +22,7 @@ import com.example.xie.R;
 import sdkdemo.EventHandler;
 
 /**
- * 诱导界面
+ * 诱导界面，这里在驾驶导航时用到
  */
 public class DemoGuideActivity extends Activity {
 

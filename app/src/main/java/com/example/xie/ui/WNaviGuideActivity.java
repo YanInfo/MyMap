@@ -16,6 +16,9 @@ import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
 import com.baidu.platform.comapi.walknavi.widget.ArCameraView;
 
+/**
+ * 步行导航，没有用到
+ */
 public class WNaviGuideActivity extends Activity {
 
     private final static String TAG = WNaviGuideActivity.class.getSimpleName();

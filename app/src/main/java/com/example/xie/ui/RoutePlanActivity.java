@@ -40,7 +40,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
@@ -52,7 +51,6 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteLine;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
-import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.baidu.mapapi.walknavi.WalkNavigateHelper;
 import com.baidu.mapapi.walknavi.adapter.IWEngineInitListener;
@@ -67,9 +65,7 @@ import com.baidu.navisdk.adapter.IBaiduNaviManager;
 import com.baidu.tts.chainofresponsibility.logger.LoggerProxy;
 import com.example.xie.R;
 import com.example.xie.adapter.TransitRouteAdapter;
-import com.example.xie.routeoverlay.MyBikingRouteOverlay;
 import com.example.xie.routeoverlay.MyDrivingRouteOverlay;
-import com.example.xie.routeoverlay.MyWalkingRouteOverlay;
 import com.example.xie.util.ChString;
 import com.example.xie.util.MapUtil;
 import com.example.xie.util.RevealAnimatorUtil;
@@ -92,6 +88,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     public static final int DRIVE_ROUTE = 0;
     public static final int BUS_ROUTE = 1;
+    // 步行和骑行，没有用到
     public static final int WALK_ROUTE = 2;
     public static final int RIDE_ROUTE = 3;
     TabLayout mTabLayout;
@@ -141,7 +138,9 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     String mTag = "";
 
-    public String[] ways = new String[]{"驾车", "公交", "步行", "骑行"};
+    private String[] ways = new String[]{"驾车", "公交"};
+    // public String[] ways = new String[]{"驾车", "公交", "步行", "骑行"};
+
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -227,6 +226,9 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         recycler_bus_list.setHasFixedSize(true);
     }
 
+    /**
+     * 初始化定位和监听
+     */
     private void initEvent() {
         mBaiduMap.setMyLocationEnabled(true);
         initLocation();
@@ -244,9 +246,11 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         mTabLayout.getTabAt(BUS_ROUTE).select();
         edit_start.setOnClickListener(this);
         edit_end.setOnClickListener(this);
-        //mTabLayout.setScrollPosition(1, 1, true);//滑动到公交路线
     }
 
+    /**
+     * 初始化定位
+     */
     private void initLocation() {
         //定位初始化
         mLocationClient = new LocationClient(this);
@@ -270,9 +274,19 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
     public void onTabSelected(TabLayout.Tab tab) {
         switch (tab.getPosition()) {
             case BUS_ROUTE:
-                searchBusRoute();
+                mMapView.setVisibility(View.GONE);
+                mBottomInfo.setVisibility(View.GONE);
+                searchRouteResult(BUS_ROUTE);
                 break;
-            case WALK_ROUTE:
+            case DRIVE_ROUTE:
+                checkStartAndEndPoint();
+                recycler_bus_list.setVisibility(View.GONE);
+                layout_no_information.setVisibility(View.GONE);
+                mMapView.setVisibility(View.VISIBLE);
+                mBottomInfo.setVisibility(View.VISIBLE);
+                searchRouteResult(DRIVE_ROUTE);
+                break;
+                 /*  case WALK_ROUTE:
                 checkStartAndEndPoint();
                 recycler_bus_list.setVisibility(View.GONE);
                 layout_no_information.setVisibility(View.GONE);
@@ -287,16 +301,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                 mMapView.setVisibility(View.VISIBLE);
                 mBottomInfo.setVisibility(View.VISIBLE);
                 searchRouteResult(RIDE_ROUTE);
-                break;
-            case DRIVE_ROUTE:
-                checkStartAndEndPoint();
-                recycler_bus_list.setVisibility(View.GONE);
-                layout_no_information.setVisibility(View.GONE);
-                mMapView.setVisibility(View.VISIBLE);
-                mBottomInfo.setVisibility(View.VISIBLE);
-                searchRouteResult(DRIVE_ROUTE);
-                break;
-            default:
+                break;*/
         }
     }
 
@@ -332,6 +337,9 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         super.onDestroy();
     }
 
+    /**
+     * 注册定位监听
+     */
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -390,7 +398,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                         .to(enNode)
                         .city(mCurrentCityName));
                 break;
-            case WALK_ROUTE:
+       /*     case WALK_ROUTE:
                 mSearch.walkingSearch((new WalkingRoutePlanOption())
                         .from(stNode)
                         .to(enNode));
@@ -402,16 +410,13 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                         // ridingType  0 普通骑行，1 电动车骑行
                         // 默认普通骑行
                         .ridingType(0));
-                break;
+                break;*/
         }
     }
 
-    private void searchBusRoute() {
-        mMapView.setVisibility(View.GONE);
-        mBottomInfo.setVisibility(View.GONE);
-        searchRouteResult(BUS_ROUTE);
-    }
-
+    /**
+     * 检查起始位置
+     */
     private void checkStartAndEndPoint() {
         if (null == startPoint) {
             Toast toast = Toast.makeText(getApplicationContext(), "未设置起点", Toast.LENGTH_LONG);
@@ -433,7 +438,8 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
      */
     @Override
     public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
-        mBaiduMap.clear();
+        Log.d("onGetWalkingRouteResult", "walking start");
+        /*mBaiduMap.clear();
         if (walkingRouteResult != null && walkingRouteResult.getRouteLines() != null) {
             if (walkingRouteResult.getRouteLines().size() > 0) {
                 progressBar.setVisibility(View.GONE);
@@ -446,7 +452,6 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                     overlay.removeFromMap();
                     overlay.addToMap();
                     overlay.zoomToSpan();
-                    //int firstPrice = (int)drivingRouteResult. getTaxiInfos().get(0).getTotalPrice();
                     int dis = walkingRouteResult.getRouteLines().get(0).getDistance();
                     int dur = walkingRouteResult.getRouteLines().get(0).getDuration();
                     String des = MapUtil.getFriendlyTime(dur) + "(" + MapUtil.getFriendlyLength(dis) + ")";
@@ -468,7 +473,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
             } else {
                 Toast.makeText(getApplicationContext(), "对不起，没有搜索到相关数据", Toast.LENGTH_SHORT).show();
             }
-        }
+        }*/
     }
 
     /**
@@ -533,9 +538,6 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                     overlay.addToMap();
                     overlay.zoomToSpan();
                     int firstPrice = 0;
-                    /*if(drivingRouteResult.getTaxiInfos().size()>0){
-                        firstPrice = (int)drivingRouteResult.getTaxiInfos().get(0).getTotalPrice();
-                    }*/
                     int dis = (int) drivingRouteResult.getRouteLines().get(0).getDistance();
                     int dur = (int) drivingRouteResult.getRouteLines().get(0).getDuration();
                     String des = MapUtil.getFriendlyTime(dur) + "(" + MapUtil.getFriendlyLength(dis) + ")";
@@ -571,6 +573,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
      */
     @Override
     public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+        Log.d("onGetBikingRouteResult", "biking start");
+        /*if (initDirs()) {
+            initNavi();
+        }
         mBaiduMap.clear();
         if (bikingRouteResult != null && bikingRouteResult.getRouteLines() != null) {
             if (bikingRouteResult.getRouteLines().size() > 0) {
@@ -584,7 +590,6 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                     overlay.removeFromMap();
                     overlay.addToMap();
                     overlay.zoomToSpan();
-                    //int firstPrice = (int)drivingRouteResult. getTaxiInfos().get(0).getTotalPrice();
                     int dis = (int) bikingRouteResult.getRouteLines().get(0).getDistance();
                     int dur = (int) bikingRouteResult.getRouteLines().get(0).getDuration();
                     String des = MapUtil.getFriendlyTime(dur) + "(" + MapUtil.getFriendlyLength(dis) + ")";
@@ -606,7 +611,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
             } else {
                 Toast.makeText(getApplicationContext(), "对不起，没有搜索到相关数据", Toast.LENGTH_SHORT).show();
             }
-        }
+        }*/
     }
 
     @Override
@@ -662,102 +667,8 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         searchRouteResult(mTabLayout.getSelectedTabPosition());
     }
 
-    private void startBikeNavi(final BikeNaviLaunchParam bikeParam) {
-        Log.d("navi", "startBikeNavi");
-        try {
-            BikeNavigateHelper.getInstance().initNaviEngine(this, new IBEngineInitListener() {
-                @Override
-                public void engineInitSuccess() {
-                    Log.d("navi", "BikeNavi engineInitSuccess");
-                    routePlanWithBikeParam(bikeParam);
-                }
-
-                @Override
-                public void engineInitFail() {
-                    Log.d("navi", "BikeNavi engineInitFail");
-                    //mBikeNaviHelper.initNaviEngine();
-                }
-            });
-        } catch (Exception e) {
-            Log.d("navi", "startBikeNavi Exception");
-            e.printStackTrace();
-        }
-    }
-
     /**
-     * 发起骑行导航算路
-     */
-    private void routePlanWithBikeParam(BikeNaviLaunchParam bikeParam) {
-        BikeNavigateHelper.getInstance().routePlanWithParams(bikeParam, new IBRoutePlanListener() {
-            @Override
-            public void onRoutePlanStart() {
-                Log.d("navi", "BikeNavi onRoutePlanStart");
-            }
-
-            @Override
-            public void onRoutePlanSuccess() {
-                Log.d("navi", "BikeNavi onRoutePlanSuccess");
-                Intent intent = new Intent();
-                intent.setClass(RoutePlanActivity.this, BNaviGuideActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onRoutePlanFail(BikeRoutePlanError error) {
-                Log.d("navi", "BikeNavi onRoutePlanFail");
-            }
-        });
-    }
-
-    private void startWalkNavi(final WalkNaviLaunchParam walkParam) {
-        Log.d("navi", "startBikeNavi");
-        try {
-            WalkNavigateHelper.getInstance().initNaviEngine(this, new IWEngineInitListener() {
-                @Override
-                public void engineInitSuccess() {
-                    Log.d("navi", "WalkNavi engineInitSuccess");
-                    routePlanWithWalkParam(walkParam);
-                }
-
-                @Override
-                public void engineInitFail() {
-                    Log.d("navi", "WalkNavi engineInitFail");
-                    //mBikeNaviHelper.initNaviEngine();
-                }
-            });
-        } catch (Exception e) {
-            Log.d("navi", "startWalkNavi Exception");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 发起步行导航算路
-     */
-    private void routePlanWithWalkParam(WalkNaviLaunchParam walkParam) {
-        WalkNavigateHelper.getInstance().routePlanWithParams(walkParam, new IWRoutePlanListener() {
-            @Override
-            public void onRoutePlanStart() {
-                Log.d("navi", "WalkNavi onRoutePlanStart");
-            }
-
-            @Override
-            public void onRoutePlanSuccess() {
-                Log.d("navi", "WalkNavi onRoutePlanSuccess");
-                Intent intent = new Intent();
-                intent.setClass(RoutePlanActivity.this, WNaviGuideActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onRoutePlanFail(WalkRoutePlanError walkRoutePlanError) {
-
-            }
-        });
-    }
-
-    /**
-     * 导航算路
+     * 驾驶导航算路
      */
     private void routeplanToNavi() {
         final int coType = BNRoutePlanNode.CoordinateType.GCJ02;
@@ -807,6 +718,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
                                 Toast.makeText(RoutePlanActivity.this, "导航:算路成功准备进入导航", Toast.LENGTH_SHORT)
                                         .show();
+                                // 跳转到诱导页面
                                 Intent intent = new Intent(RoutePlanActivity.this,
                                         DemoGuideActivity.class);
                                 Bundle bundle = new Bundle();
@@ -820,6 +732,105 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                         }
                     }
                 });
+    }
+
+    /**
+     * 步行导航初始化，并监听
+     * @param walkParam
+     */
+    private void startWalkNavi(final WalkNaviLaunchParam walkParam) {
+        try {
+            WalkNavigateHelper.getInstance().initNaviEngine(this, new IWEngineInitListener() {
+                @Override
+                public void engineInitSuccess() {
+                    Log.d("navi", "WalkNavi engineInitSuccess");
+                    routePlanWithWalkParam(walkParam);
+                }
+
+                @Override
+                public void engineInitFail() {
+                    Log.d("navi", "WalkNavi engineInitFail");
+                    //mBikeNaviHelper.initNaviEngine();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 发起步行导航算路
+     */
+    private void routePlanWithWalkParam(WalkNaviLaunchParam walkParam) {
+        WalkNavigateHelper.getInstance().routePlanWithParams(walkParam, new IWRoutePlanListener() {
+            @Override
+            public void onRoutePlanStart() {
+                Log.d("navi", "WalkNavi onRoutePlanStart");
+            }
+
+            @Override
+            public void onRoutePlanSuccess() {
+                Log.d("navi", "WalkNavi onRoutePlanSuccess");
+                Intent intent = new Intent();
+                intent.setClass(RoutePlanActivity.this, WNaviGuideActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onRoutePlanFail(WalkRoutePlanError walkRoutePlanError) {
+
+            }
+        });
+    }
+
+    /**
+     * 骑行导航初始化，并监听
+     * @param bikeParam
+     */
+    private void startBikeNavi(final BikeNaviLaunchParam bikeParam) {
+        try {
+            // 初始化导航引擎
+            BikeNavigateHelper.getInstance().initNaviEngine(this, new IBEngineInitListener() {
+                @Override
+                public void engineInitSuccess() {
+                    Log.d("navi", "BikeNavi engineInitSuccess");
+                    routePlanWithBikeParam(bikeParam);
+                }
+
+                @Override
+                public void engineInitFail() {
+                    Log.d("navi", "BikeNavi engineInitFail");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 发起骑行导航算路
+     */
+    private void routePlanWithBikeParam(BikeNaviLaunchParam bikeParam) {
+        BikeNavigateHelper.getInstance().routePlanWithParams(bikeParam, new IBRoutePlanListener() {
+
+            @Override
+            public void onRoutePlanStart() {
+                Log.d("navi", "BikeNavi onRoutePlanStart");
+            }
+
+            @Override
+            public void onRoutePlanSuccess() {
+                Log.d("navi", "BikeNavi onRoutePlanSuccess");
+                Intent intent = new Intent();
+                intent.setClass(RoutePlanActivity.this, BNaviGuideActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onRoutePlanFail(BikeRoutePlanError error) {
+                Log.d("navi", "BikeNavi onRoutePlanFail");
+            }
+        });
     }
 
     /**

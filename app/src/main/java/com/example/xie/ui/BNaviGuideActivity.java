@@ -32,6 +32,9 @@ import com.baidu.tts.client.SpeechSynthesizerListener;
 import com.baidu.tts.client.SynthesizerTool;
 import com.baidu.tts.client.TtsMode;
 
+/**
+ * 骑行导航，没有用到
+ */
 public class BNaviGuideActivity extends Activity implements SpeechSynthesizerListener{
 
     private BikeNavigateHelper mNaviHelper;
@@ -56,7 +59,7 @@ public class BNaviGuideActivity extends Activity implements SpeechSynthesizerLis
 
         mNaviHelper = BikeNavigateHelper.getInstance();
 
-        View view = mNaviHelper.onCreate(BNaviGuideActivity.this);
+          View view = mNaviHelper.onCreate(BNaviGuideActivity.this);
         if (view != null) {
             setContentView(view);
         }
