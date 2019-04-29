@@ -40,7 +40,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
@@ -87,7 +86,7 @@ import sdkdemo.newif.DemoGuideActivity;
 /**
  * 导航，输入起始位置和终点位置
  */
-public class RoutePlanActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, OnGetRoutePlanResultListener, View.OnClickListener {
+public class RoutePlanActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, OnGetRoutePlanResultListener, View.OnClickListener{
 
     public static RoutePlanActivity routePlanActivityInstance = null;
 
@@ -134,6 +133,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION
     };
+
     private static final int authBaseRequestCode = 1;
     private boolean hasInitSuccess = false;
     static final String ROUTE_PLAN_NODE = "routePlanNode";
@@ -171,6 +171,9 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         initEvent();
     }
 
+    /**
+     * 初始化布局
+     */
     private void initView() {
         mTabLayout = findViewById(R.id.tab_layout);
         mMapView = findViewById(R.id.route_map);
@@ -222,7 +225,6 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         edit_end.setFocusable(false);
         recycler_bus_list.setLayoutManager(new LinearLayoutManager(this));
         recycler_bus_list.setHasFixedSize(true);
-        //searchBusRoute();
     }
 
     private void initEvent() {
@@ -366,6 +368,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         }
     }
 
+    /**
+     * 搜索路线
+     * @param routeType
+     */
     private void searchRouteResult(int routeType) {
         checkStartAndEndPoint();
         PlanNode stNode = PlanNode.withLocation(startPoint);
@@ -421,6 +427,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         }
     }
 
+    /**
+     * 步行路线结果回调
+     * @param walkingRouteResult
+     */
     @Override
     public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
         mBaiduMap.clear();
@@ -461,6 +471,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         }
     }
 
+    /**
+     * 换乘路线结果回调
+     * @param transitRouteResult
+     */
     @Override
     public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
         mBaiduMap.clear();
@@ -495,6 +509,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     }
 
+    /**
+     * 驾车路线结果回调
+     * @param drivingRouteResult
+     */
     @Override
     public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
         if (initDirs()) {
@@ -547,6 +565,10 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
 
     }
 
+    /**
+     * 骑行路线结果回调
+     * @param bikingRouteResult
+     */
     @Override
     public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
         mBaiduMap.clear();
@@ -625,6 +647,9 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         }
     }
 
+    /**
+     * 起点终点切换
+     */
     private void changeStartandEnd() {
         String name = startName;
         startName = endName;

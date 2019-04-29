@@ -62,6 +62,7 @@
                     />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rela_end"
                 android:layout_width="match_parent"
@@ -92,6 +93,7 @@
 
             </RelativeLayout>
         </RelativeLayout>
+
         <!--起点终点交换-->
         <ImageView
             android:id="@+id/img_return"
@@ -104,6 +106,7 @@
             android:background="?selectableItemBackground"
             android:layout_marginRight="16dp"
             />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

@@ -8,8 +8,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import java.lang.ref.WeakReference;
 
-/*
-揭露动画类
+/**
+ * 揭露动画类
  */
 public class RevealAnimatorUtil {
     private WeakReference<View> weakRootLayout;
@@ -23,7 +23,9 @@ public class RevealAnimatorUtil {
     public  void startRevealAnimator(boolean reversed, int x, int y){
         View mRootLayout = weakRootLayout.get();
         Activity mActivity = weakActivity.get();
-        if (mActivity == null || mRootLayout == null) return;
+        if (mActivity == null || mRootLayout == null) {
+            return;
+        }
         float hypot = (float) Math.hypot(mRootLayout.getHeight(),mRootLayout.getWidth());
         float startRadius = reversed ? hypot : 0;
         float endRadius = reversed ? 0 : hypot;
@@ -45,7 +47,9 @@ public class RevealAnimatorUtil {
         public void onAnimationEnd(Animator animation) {
             View mRootLayout = weakRootLayout.get();
             Activity mActivity = weakActivity.get();
-            if (mActivity == null || mRootLayout == null) return;
+            if (mActivity == null || mRootLayout == null) {
+                return;
+            }
             mRootLayout.setVisibility(View.INVISIBLE);
             mActivity.finish();
             mActivity.overridePendingTransition(0, 0);
