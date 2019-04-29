@@ -107,6 +107,15 @@
             android:layout_marginRight="16dp"
             />
 
+        <!--设置-->
+        <ImageView
+            android:id="@+id/img_setting"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/img_return"
+            android:layout_toRightOf="@id/rela_a2b"
+            android:src="@mipmap/setting" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

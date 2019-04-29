@@ -78,6 +78,7 @@ import java.util.List;
 
 import sdkdemo.NormalUtils;
 import sdkdemo.newif.DemoGuideActivity;
+import sdkdemo.newif.DemoMainActivity;
 
 /**
  * 导航，输入起始位置和终点位置
@@ -107,6 +108,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
     private UiSettings mUiSettings;
     private RoutePlanSearch mSearch;
     ImageView img_return;
+    ImageView img_setting;
 
     private LocationClient mLocationClient;
 
@@ -185,6 +187,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         recycler_bus_list = findViewById(R.id.recycler_bus_list);
         img_back = findViewById(R.id.img_back);
         img_return = findViewById(R.id.img_return);
+        img_setting = findViewById(R.id.img_setting);
         mRootLayout = findViewById(R.id.root_layout);
         layout_no_information = findViewById(R.id.layout_no_information);
     }
@@ -241,6 +244,7 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
         });
         img_back.setOnClickListener(this);
         img_return.setOnClickListener(this);
+        img_setting.setOnClickListener(this);
         mTabLayout.addOnTabSelectedListener(this);
         // 默认选择的路线
         mTabLayout.getTabAt(BUS_ROUTE).select();
@@ -623,6 +627,11 @@ public class RoutePlanActivity extends AppCompatActivity implements TabLayout.On
                 break;
             case R.id.img_return:
                 changeStartandEnd();
+                break;
+            case R.id.img_setting:
+                if (BaiduNaviManagerFactory.getBaiduNaviManager().isInited()) {
+                     NormalUtils.gotoSettings(RoutePlanActivity.this);
+                }
                 break;
             case R.id.edit_start:
                 intent = new Intent();
