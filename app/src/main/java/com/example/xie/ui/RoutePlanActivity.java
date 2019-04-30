@@ -78,7 +78,6 @@ import java.util.List;
 
 import sdkdemo.NormalUtils;
 import sdkdemo.newif.DemoGuideActivity;
-import sdkdemo.newif.DemoMainActivity;
 
 /**
  * 导航，输入起始位置和终点位置
