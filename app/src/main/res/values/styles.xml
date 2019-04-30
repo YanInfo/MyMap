@@ -11,10 +11,10 @@
     </style>
 
     <style name="MainTheme" parent="AppTheme">
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/main_color</item>
     </style>
     <style name="RouteDetailTheme" parent="AppTheme">
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/main_color</item>
     </style>
     <style name="WelfareActivityTheme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>

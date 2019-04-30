@@ -28,7 +28,7 @@ public class LiteActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lite);
+        setContentView(R.layout.demo_activity_lite);
 
         Button startNewIFNormalDemo = (Button) findViewById(R.id.startNewIFNormalDemo);
         startNewIFNormalDemo.setOnClickListener(new View.OnClickListener() {

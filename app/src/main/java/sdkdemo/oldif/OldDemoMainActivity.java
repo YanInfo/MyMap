@@ -62,7 +62,7 @@ public class OldDemoMainActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.normal_demo_activity_main);
+        setContentView(R.layout.demo_normal_activity_main);
 
         mWgsNaviBtn = (Button) findViewById(R.id.wgsNaviBtn);
         mGcjNaviBtn = (Button) findViewById(R.id.gcjNaviBtn);

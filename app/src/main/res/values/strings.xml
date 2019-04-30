@@ -16,4 +16,5 @@
     <string name="current_location">您当前的位置为：</string>
     <string name="no_address">地图上的点...</string>
     <string name="no_result">没有结果</string>
+    <string name="route_start_bottom">小老弟 输入起点和终点吧O(∩_∩)O</string>
 </resources>
