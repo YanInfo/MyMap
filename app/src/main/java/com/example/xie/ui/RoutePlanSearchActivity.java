@@ -2,8 +2,6 @@ package com.example.xie.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -17,15 +15,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
@@ -39,7 +32,6 @@ import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.xie.R;
 import com.example.xie.adapter.BaseAdapter;
 import com.example.xie.adapter.LoadMoreAdapterWrapper;
@@ -47,15 +39,15 @@ import com.example.xie.adapter.MySuggestionsAdapter;
 import com.example.xie.adapter.SearchAdapter;
 import com.example.xie.util.MapUtil;
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mancj.materialsearchbar.MaterialSearchBar.BUTTON_BACK;
 
-
+/**
+ * 这里对应的是起始位置和终止位置输入框，输入内容时跳转
+ */
 public class RoutePlanSearchActivity extends FragmentActivity implements OnGetPoiSearchResultListener,
         MaterialSearchBar.OnSearchActionListener, OnGetSuggestionResultListener, MySuggestionsAdapter.OnItemViewClickListener {
 

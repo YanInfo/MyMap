@@ -53,7 +53,9 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 
-
+/**
+ * 初始页面
+ */
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener, FabSpeedDial.MenuListener, BaiduMap.OnMapClickListener, BaiduMap.OnMapLongClickListener, BaiduMap.OnMapTouchListener {
 
     public static final int DURATION_MS = 1000;
@@ -201,11 +203,14 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         mCoder = GeoCoder.newInstance();
     }
 
+    /**
+     * 初始化定位和相关监听事件
+     */
     private void initEvent() {
         if (Build.VERSION.SDK_INT >= 23) {
             initLocation();
         } else {
-            initLocation();//initLocation为定位方法
+            initLocation();
         }
         fabSD_map_mode.setMenuListener(this);
         fab_check.setOnClickListener(this);
@@ -218,6 +223,9 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         mCoder.setOnGetGeoCodeResultListener(mCoderListener);
     }
 
+    /**
+     * 启动定位sdk
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -301,6 +309,9 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * 开启实时定位，显示方向
+     */
     private void changeCompassMode() {
         if (null == mMapView) {
             return;
@@ -361,6 +372,11 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
+    /**
+     * 切换地图类型
+     * @param menuItem
+     * @return
+     */
     @Override
     public boolean onMenuItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -451,7 +467,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         // 在地图上添加Marker，并显示
         // mBaiduMap.addOverlay(options);
         marker = (Marker) (mBaiduMap.addOverlay(options));
-        //textView_information.setText();
+        // textView_information.setText();
         // 设置额外的信息
         // 发起反地理编码请求(经纬度->地址信息)
         mCoder.reverseGeoCode(new ReverseGeoCodeOption()
@@ -471,10 +487,13 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * 实现定位监听接口
+     */
     public class MyLocationListener extends BDAbstractLocationListener {
         private boolean isFirstIn = true;
 
-        //定位请求回调函数,这里面会得到定位信息
+        // 定位请求回调函数,这里面会得到定位信息
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
             mLatitude = bdLocation.getLatitude();
@@ -526,7 +545,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
 
 
     /**
-     * 定位方法
+     * 定位方法和配置
      */
     private void initLocation() {
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
